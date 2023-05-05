@@ -1021,8 +1021,8 @@ void render_get_device(void **device, void **context) {
 	skg_platform_data_t platform = skg_get_platform_data();
 #if defined(SKG_DIRECT3D11)
 	*device  = platform._d3d11_device;
-	//*context = platform._d3d11_context;
-	*context = nullptr;
+	*context = platform._d3d11_context;
+	//*context = nullptr;
 #elif defined(_SKG_GL_LOAD_EGL)
 	*device  = platform._egl_display;
 	*context = platform._egl_context;

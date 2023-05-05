@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>StereoKit</Authors>
+		<RepositoryUrl>https://github.com/StereoKit/StereoKit.HolographicRemoting</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageTags>StereoKit;HoloLens;Remoting</PackageTags>
+		<PackageIcon>images\StereoKitLogo64.png</PackageIcon>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<Title>StereoKit.HolographicRemoting</Title>
+		<Version>0.9.5</Version>
+		<Description>A StereoKit integration for Holographic Remoting, allows developers to run desktop apps on a HoloLens with only a network connection!</Description>
+		<Summary>A StereoKit integration for Holographic Remoting, allows developers to run desktop apps on a HoloLens with only a network connection!</Summary>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Holographic.Remoting.OpenXr" Version="2.9.1" GeneratePathProperty="true" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="ppy.SDL2-CS" Version="1.0.82" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+		<PackageReference Include="Veldrid.SDL2" Version="4.9.0" />
+		<PackageReference Include="Vortice.D3DCompiler" Version="2.4.2" />
+		<PackageReference Include="Vortice.Direct3D11" Version="2.4.2" />
+	</ItemGroup>
+
+	<!-- Files and DLLs that are needed for the NuGet package -->
+	<ItemGroup>
+		<None Include="images\StereoKitLogo64.png" Pack="true" PackagePath="images\" />
+		<Content Pack="true" Include="$(IntermediateOutputPath)\StereoKit.HolographicRemoting.pdb" PackagePath="lib\netstandard2.0\" />
+		<Content Pack="true" Include="StereoKit.HolographicRemoting.targets" PackagePath="build\" />
+		
+		<!-- We can't reference the holographic remoting files in the other
+		     NuGet dependency, so we have to copy them into ours instead. -->
+		<Content Pack="true" Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\Desktop\*.dll" PackagePath="build\native\bin\x64\Desktop" />
+		<Content Pack="true" Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\Desktop\*.json" PackagePath="build\native\bin\x64\Desktop" />
+		<Content Pack="true" Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\uwp\*.dll" PackagePath="build\native\bin\x64\uwp" />
+		<Content Pack="true" Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\uwp\*.json" PackagePath="build\native\bin\x64\uwp" />
+	</ItemGroup>
+
+	<!-- Do the same thing as our NuGet, make sure it works in the test
+	     project -->
+	<ItemGroup Condition="'$(TargetPlatformIdentifier)'=='Windows'">
+		<None Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\Desktop\*.dll">
+			<Link>%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\Desktop\*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetPlatformIdentifier)'=='UAP'">
+		<None Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\uwp\*.dll">
+			<Link>%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(PkgMicrosoft_Holographic_Remoting_OpenXr)\build\native\bin\x64\uwp\*.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="shaders\fragment-shader.glsl" />
+	  <None Remove="shaders\TexturePS.hlsl" />
+	  <None Remove="shaders\TextureVS.hlsl" />
+	  <None Remove="shaders\vertex-shader.glsl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="shaders\fragment-shader.glsl">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="shaders\TexturePS.hlsl">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="shaders\TextureVS.hlsl">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="shaders\vertex-shader.glsl">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\StereoKit\StereoKit.csproj" />
+	</ItemGroup>
+</Project>

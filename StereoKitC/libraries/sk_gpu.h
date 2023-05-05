@@ -373,6 +373,7 @@ typedef struct skg_swapchain_t {
 
 typedef struct skg_platform_data_t {
 	void *_d3d11_device;
+	void *_d3d11_context;
 } skg_platform_data_t;
 
 #elif defined(SKG_DIRECT3D12)
@@ -937,6 +938,7 @@ void skg_draw_begin() {
 skg_platform_data_t skg_get_platform_data() {
 	skg_platform_data_t result = {};
 	result._d3d11_device = d3d_device;
+	result._d3d11_context = d3d_context;
 
 	return result;
 }
