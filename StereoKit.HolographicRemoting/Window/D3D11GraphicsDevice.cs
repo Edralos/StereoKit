@@ -108,7 +108,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                 BufferUsage = Usage.RenderTargetOutput,
                 SampleDescription = SampleDescription.Default,
                 Scaling = Scaling.Stretch,
-                SwapEffect = SwapEffect.Discard,
+                SwapEffect = SwapEffect.Discard, 
                 AlphaMode = AlphaMode.Unspecified,
                  
                 

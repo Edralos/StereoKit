@@ -11,7 +11,7 @@ using System.Linq;
 // arguments allows us to create separate Launch Profiles for running
 // locally vs. running with remoting via Visual Studio's UI! Note the
 // "Run - Remote" and "Run - Local" options in the run bar.
-const string defaultIp   = "192.168.20.118";
+const string defaultIp   = "192.168.1.81";
 int          remotingArg = Array.IndexOf(args, "-remote");
 HolographicRemoting remoting = null;
 

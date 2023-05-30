@@ -40,7 +40,7 @@ public class Application : IDisposable
     public virtual IntPtr Initialize(IntPtr deviceNative, IntPtr contextNative, IntPtr textureNative)
     {
         _graphicsDevice = new D3D11GraphicsDevice(MainWindow, new System.Drawing.Size(1440,936), deviceNative, contextNative, textureNative, Vortice.DXGI.Format.R8G8B8A8_UNorm_SRgb);
-        return _graphicsDevice._texture.NativePointer;
+        return _graphicsDevice.BackBufferTexture.NativePointer;
 
     }
 
